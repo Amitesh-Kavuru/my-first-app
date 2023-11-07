@@ -1,0 +1,23 @@
+.topNav{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 13vh;
+    position: fixed;
+    padding: 5px;
+    background-color: rgb(245,246,252);
+}
+
+.menuLine{
+    background-color: white;
+    margin: 5px;
+    width: 20px;
+    height: 2px;
+}
+
+.menuBtn{
+    background-color: transparent;
+    border: none;
+}

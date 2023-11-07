@@ -1,0 +1,48 @@
+.graphFilter{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.graphFilter ul{
+    display: flex;
+    height: 23px;
+    width: 200px;
+    align-items: center;
+  justify-content: space-around;
+  padding: 0px;
+  position: relative;
+  border-radius: 8px;
+  list-style: none;
+  z-index: 1    ;
+}
+
+.graphFilter ul::after{
+    content: "";
+    display: block;
+    background-color: white;
+    height: 100%;
+    width: 31%;
+    border-radius: 10px;
+    position: absolute;
+    top: 0px;
+    left: var(--left, 0%);
+    z-index: -1;
+    transition: left 0.5s ease;
+}
+
+.graphFilter ul:has(#one:checked)::after{
+    --left: 0%;
+}
+.graphFilter ul:has(#two:checked)::after{
+    --left: 33.33%;
+}
+.graphFilter ul:has(#three:checked)::after{
+    --left: 66.66%;
+}
+
+
+.graphFilter input[type="radio"]{
+    display: none;
+}
+

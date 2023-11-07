@@ -1,0 +1,65 @@
+/* .sideNav-collapsibleButton{
+    height: 100%;
+} */
+
+.collapsibleButton-content-close{
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    width: fit-content;
+    margin: 0px auto;
+
+}
+
+.collapsibleButton-content-open{
+    width: fit-content;
+    max-height: 100px;
+    transition: max-height 0.4s ease;
+    margin: 0px auto;
+}
+
+
+.collapsibleButton-button{
+    padding: 0px 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    font-size: 18px;
+}
+
+.collapsibleButton-button-child{
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    font-size: 15px;
+}
+
+
+.collapsibleContent-elementButton{
+    background-color: transparent;
+    border: none;
+    display: block;
+    width: fit-content;
+    font-size: 13px;
+}
+
+.active{
+    background-color: white;
+}
+
+
+.collapsibleButton-button-icon-open{
+    transform: rotate(0deg);
+    transition: transform 0.4s ease;
+}
+
+.collapsibleButton-button-icon-close{
+    transform: rotate(-180deg);
+    transition: transform 0.4s ease;
+}
