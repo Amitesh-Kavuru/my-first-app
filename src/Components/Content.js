@@ -14,11 +14,11 @@ export default function Content(props) {
   };
 
   const selectedMeterId =
-    props.selectedMeterId.length === 0 ? "meter1" : props.selectedMeterId;
+    props.selectedMeterId.length === 0 ? "SID001" : props.selectedMeterId;
   const fetchData = async () => {
     console.log("Fetching Data with API call.");
     const response = await fetch(
-      `http://localhost:5000/api/waterMeters/${selectedMeterId}`
+      `http://localhost:5000/api/sensors/${selectedMeterId}/`
     );
     const data = await response.json();
     console.log("Json data received from API : ");
@@ -43,25 +43,28 @@ export default function Content(props) {
                 fontSize: "25px",
               }}
             >
-              {meterData ? meterData.meterLocation : "Waiting"}
+              {meterData ? meterData[0]._id.sensorLocation : "Waiting"}
             </p>
-            <p>{meterData ? `(${meterData.applianceName})` : "Waiting"}</p>
+            <p>
+              {meterData ? `(${meterData[0]._id.monitoringAppliance})` : "Waiting"}
+            </p>
           </div>
           <CircleProgressIndicator
-            waterConsumed={meterData ? meterData.currentConsumption : 500.0}
-            waterLimit={meterData ? meterData.monthlyConsumptionLimit : 1000.0}
+            // waterConsumed={meterData ? meterData.currentConsumption : 500.0}
+            waterConsumed={500.0}
+            waterLimit={1000.0}
+            // waterLimit={meterData ? meterData.monthlyConsumptionLimit : 1000.0}
           />
         </div>
       </div>
       <div className="content-graph">
-        <GraphFilter handleRadioEvent={handleRadio} activeFilter={graphFilter}/>
+        <GraphFilter
+          handleRadioEvent={handleRadio}
+          activeFilter={graphFilter}
+        />
         <LineChart
           filter={graphFilter}
-          usageData={
-            meterData
-              ? meterData.usageData
-              : { dayData: [], monthData: [], yearData: [] }
-          }
+          usageData={meterData ? meterData : []}
         />
       </div>
     </div>

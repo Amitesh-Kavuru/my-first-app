@@ -19,29 +19,52 @@ export default function LineChart(props) {
     ],
   });
 
-  let data;
-
   const fun = () => {
-    console.log("Filter Applied " + props.filter);
-    if (props.filter === "day") {
-      data = props.usageData.dayData;
-    } else if (props.filter === "month") {
-      data = props.usageData.monthData;
-    } else if (props.filter === "year") {
-      data = props.usageData.yearData;
+    if (props.usageData.length !== 0) {
+      let data = props.usageData[0];
+      console.log("Data---------------------------: ", data);
+      let dayData = {
+        // day: data.monthlyData.dailyData.day,
+        total: data.monthlyData[0].dailyData[0].dailyConsumption,
+        labels: data.monthlyData[0].dailyData[0].hourlyData.map((ele) => ele.hour),
+        values: data.monthlyData[0].dailyData[0].hourlyData.map(
+          (ele) => ele.hourlyConsumption
+        ),
+      };
+      let monthData = {
+        // month: data.monthlyData.month,
+        total: data.monthlyData[0].monthlyConsumption, //progress total
+        labels: data.monthlyData[0].dailyData.map((ele) => ele.day),
+        values: data.monthlyData[0].dailyData.map((ele) => ele.dailyConsumption),
+      };
+      let yearData = {
+        // year: data._id.year,
+        total: data.yearlyConsumption,
+        labels: data.monthlyData.map((ele) => ele.month),
+        values: data.monthlyData.map((ele) => ele.monthlyConsumption),
+      };
+      console.log("Filter Applied " + props.filter);
+      let temp;
+      if (props.filter === "day") {
+        temp = dayData;
+      } else if (props.filter === "month") {
+        temp = monthData;
+      } else if (props.filter === "year") {
+        temp = yearData;
+      }
+      setChartData({
+        labels: temp.labels, // Update labels as needed
+        datasets: [
+          {
+            label: "Water Consumed",
+            data: temp.values, // Update data as needed
+            backgroundColor: "rgba(133, 223, 251, 255)",
+            borderRadius: 15,
+            barThickness: 12,
+          },
+        ],
+      });
     }
-    setChartData({
-      labels: data.map((data) => data.label), // Update labels as needed
-      datasets: [
-        {
-          label: "Water Consumed",
-          data: data.map((data) => data.value), // Update data as needed
-          backgroundColor: "rgba(133, 223, 251, 255)",
-          borderRadius: 15,
-          barThickness: 12,
-        },
-      ],
-    });
   };
 
   useEffect(() => {

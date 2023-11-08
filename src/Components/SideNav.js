@@ -9,7 +9,7 @@ export default function SideNav(props) {
         <CollapsibleMenuButton
         callbackFun = {props.callbackFun}
           childMenuItems={[
-            { title: "Water Meters", buttons: ["meter1", "meter2", "meter3"] },
+            { title: "Water Meters", buttons: ["SID001", "SID002", "SID003"] },
             // {
             //   title: "Water Valves",
             //   buttons: ["valve1", "valve2"],
