@@ -9,7 +9,7 @@ export default function CollapsibleMenuButton(props) {
   const objList = props.childMenuItems;
   let childComponents = objList.map((obj) => (
     <CollapsibleMenuButtonChild
-    callbackFun = {props.callbackFun}
+      callbackFun={props.callbackFun}
       title={obj.title}
       buttons={obj.buttons}
     ></CollapsibleMenuButtonChild>
@@ -25,9 +25,10 @@ export default function CollapsibleMenuButton(props) {
         />
       </button>
       <div
-        className={`collapsibleButton-content-${
-          contentIsOpen ? "open" : "close"
-        }`}
+        // className={`collapsibleButton-content-${
+        //   contentIsOpen ? "open" : "close"
+        // }`}
+        className={`collapsibleButton-content-open`}
       >
         {childComponents}
       </div>

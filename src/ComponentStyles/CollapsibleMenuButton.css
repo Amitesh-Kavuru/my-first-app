@@ -12,7 +12,9 @@
 }
 
 .collapsibleButton-content-open{
-    width: fit-content;
+    text-align: center;
+    width: 100%;
+    /* width: fit-content; */
     max-height: 100px;
     transition: max-height 0.4s ease;
     margin: 0px auto;

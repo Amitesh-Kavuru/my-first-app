@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../ComponentStyles/CircleProgressIndicator.css";
+import { FilterContext } from "./Content";
 
-export default function CircleProgressIndicator({ waterConsumed, waterLimit }) {
-  const percentage = (waterConsumed / waterLimit) * 100;
+export default function CircleProgressIndicator() {
+  const context = useContext(FilterContext);
+  const [totalConsumption, setTotalConsumption] = useState(0);
+  const waterLimit = 5000.0;
+
+  useEffect(() => {
+    const fetchTotalConsumption = async () => {
+      const currentTS = context.currentTSFilter;
+      const graphFilter = context.activeFilter;
+      const sensorId = context.selectedMeterId;
+      let response = await fetch(
+        `http://localhost:5000/api/sensors/${sensorId}/filter/${graphFilter}/timestamp/${currentTS.toISOString()}`
+      );
+      const responseData = await response.json();
+      console.log(
+        "JSON from API fetch in CircleProgressIndicator component",
+        responseData
+      );
+      if (responseData.length === 0) setTotalConsumption(0);
+      else setTotalConsumption(responseData[0].totalConsumption);
+    };
+    fetchTotalConsumption();
+  }, [context]);
+
+  const percentage =
+    (totalConsumption / waterLimit) * 100 > 100
+      ? 100
+      : (totalConsumption / waterLimit) * 100;
   const svgWidth = 150;
   const svgHeight = 150;
   const strokeWidth = 7;
@@ -33,7 +60,7 @@ export default function CircleProgressIndicator({ waterConsumed, waterLimit }) {
           transform={`rotate(-90, ${cx}, ${cy})`}
         />
         <circle
-        style={{transition: "1s ease"}}
+          style={{ transition: "1s ease" }}
           cx={cx}
           cy={cy}
           r={radius}
@@ -50,8 +77,14 @@ export default function CircleProgressIndicator({ waterConsumed, waterLimit }) {
           <tspan x={cx} dy="-2em" fontSize="14">
             Total month
           </tspan>
-          <tspan x={cx} dy="2em" fontSize="20" fill="rgb(50,79,255)" fontWeight="bold">
-            {waterConsumed}L
+          <tspan
+            x={cx}
+            dy="2em"
+            fontSize="20"
+            fill="rgb(50,79,255)"
+            fontWeight="bold"
+          >
+            {totalConsumption}L
           </tspan>
           <tspan x={cx} dy="2em" fontSize="14">
             /{waterLimit}

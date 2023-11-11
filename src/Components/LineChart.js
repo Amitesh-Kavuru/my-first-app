@@ -1,76 +1,65 @@
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { FilterContext } from "./Content";
 
 Chart.register(CategoryScale);
 
 export default function LineChart(props) {
   const [chartData, setChartData] = useState({
-    labels: [], // Initial empty labels
+    labels: [],
     datasets: [
       {
         label: "Water Consumed",
-        data: [], // Initial empty data
+        data: [],
         backgroundColor: "rgba(133, 223, 251, 255)",
         borderRadius: 15,
         barThickness: 12,
       },
     ],
   });
+  const context = useContext(FilterContext);
 
-  const fun = () => {
-    if (props.usageData.length !== 0) {
-      let data = props.usageData[0];
-      console.log("Data---------------------------: ", data);
-      let dayData = {
-        // day: data.monthlyData.dailyData.day,
-        total: data.monthlyData[0].dailyData[0].dailyConsumption,
-        labels: data.monthlyData[0].dailyData[0].hourlyData.map((ele) => ele.hour),
-        values: data.monthlyData[0].dailyData[0].hourlyData.map(
-          (ele) => ele.hourlyConsumption
-        ),
-      };
-      let monthData = {
-        // month: data.monthlyData.month,
-        total: data.monthlyData[0].monthlyConsumption, //progress total
-        labels: data.monthlyData[0].dailyData.map((ele) => ele.day),
-        values: data.monthlyData[0].dailyData.map((ele) => ele.dailyConsumption),
-      };
-      let yearData = {
-        // year: data._id.year,
-        total: data.yearlyConsumption,
-        labels: data.monthlyData.map((ele) => ele.month),
-        values: data.monthlyData.map((ele) => ele.monthlyConsumption),
-      };
-      console.log("Filter Applied " + props.filter);
-      let temp;
-      if (props.filter === "day") {
-        temp = dayData;
-      } else if (props.filter === "month") {
-        temp = monthData;
-      } else if (props.filter === "year") {
-        temp = yearData;
-      }
+  useEffect(() => {
+    const fetchGraphData = async () => {
+      const currentTS = context.currentTSFilter;
+      const graphFilter = context.activeFilter;
+      const sensorId = context.selectedMeterId;
+      let response = await fetch(
+        `http://localhost:5000/api/sensors/${sensorId}/graphData/filter/${graphFilter}/timestamp/${currentTS.toISOString()}`
+      );
+      const responseData = await response.json();
+      console.log("JSON from API fetch in LineChart component", responseData);
       setChartData({
-        labels: temp.labels, // Update labels as needed
+        labels: responseData.map((ele) => {
+          let tempTS = new Date(
+            ele._id.year,
+            ele._id.month - 1,
+            ele._id.day ? ele._id.day : 1,
+            ele._id.hour ? ele._id.hour : 0
+          );
+          if (graphFilter === "day")
+            return tempTS.toLocaleString("en", { hour: "2-digit" });
+          else if (graphFilter === "month")
+            return tempTS.toLocaleString("en", { day: "2-digit" });
+          else if (graphFilter === "year")
+            return tempTS.toLocaleString("en", { month: "long" });
+          else return [];
+        }),
         datasets: [
           {
             label: "Water Consumed",
-            data: temp.values, // Update data as needed
+            data: responseData.map((ele) => ele.totalConsumption),
             backgroundColor: "rgba(133, 223, 251, 255)",
             borderRadius: 15,
             barThickness: 12,
           },
         ],
       });
-    }
-  };
-
-  useEffect(() => {
-    fun();
-  }, [props.filter, props.usageData]);
-
+    };
+    fetchGraphData();
+  }, [context]);
   console.log("Chart Data");
   console.log(chartData);
   return (

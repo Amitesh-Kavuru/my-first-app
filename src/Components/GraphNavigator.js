@@ -1,69 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigateNext, NavigateBefore } from "@mui/icons-material";
+import { FilterContext } from "./Content";
 
-export default function GraphNavigator(props) {
-  const [currentDate, setCurrentDate] = useState(new Date());
+export default function GraphNavigator() {
+  const context = useContext(FilterContext);
   const [dateText, setDateText] = useState(
-    new Date().toLocaleString("en", { day: "2-digit", month: "long" })
+    context.currentTSFilter.toLocaleString("en", {
+      day: "2-digit",
+      month: "long",
+    })
   );
+  const [navigateNext, setNavigateNext] = useState(false);
   useEffect(() => {
+    setNavigateNext(false);
     let tempDate = new Date();
-    setCurrentDate(tempDate);
-    if (props.activeFilter === "day") {
+    context.setCurrentTSFilter(tempDate);
+    if (context.activeFilter === "day") {
       setDateText(
         tempDate.toLocaleString("en", { day: "2-digit", month: "long" })
       );
-    } else if (props.activeFilter === "month") {
+    } else if (context.activeFilter === "month") {
       setDateText(
         tempDate.toLocaleString("en", { month: "long", year: "numeric" })
       );
-    } else if (props.activeFilter === "year") {
+    } else if (context.activeFilter === "year") {
       setDateText(tempDate.toLocaleString("en", { year: "numeric" }));
     }
-  }, [props.activeFilter]);
+  }, [context.activeFilter]);
 
   const handleClickIncreaseDate = () => {
-    if (props.activeFilter === "day") {
-      const newDate = new Date(currentDate);
+    if (context.activeFilter === "day") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setDate(newDate.getDate() + 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(
         newDate.toLocaleString("en", { day: "2-digit", month: "long" })
       );
-    } else if (props.activeFilter === "month") {
-      const newDate = new Date(currentDate);
+      if (
+        newDate.getDate() === new Date().getDate() &&
+        newDate.getMonth() === new Date().getMonth() &&
+        newDate.getFullYear() === new Date().getFullYear()
+      ) {
+        console.log("Prev date", newDate);
+        console.log("Curr date", new Date());
+        console.log("setting nav off");
+        setNavigateNext(false);
+      }
+    } else if (context.activeFilter === "month") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setMonth(newDate.getMonth() + 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(
         newDate.toLocaleString("en", { month: "long", year: "numeric" })
       );
-    } else if (props.activeFilter === "year") {
-      const newDate = new Date(currentDate);
+      if (
+        newDate.getMonth() === new Date().getMonth() &&
+        newDate.getFullYear() === new Date().getFullYear()
+      )
+        setNavigateNext(false);
+    } else if (context.activeFilter === "year") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setFullYear(newDate.getFullYear() + 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(newDate.toLocaleString("en", { year: "numeric" }));
+      if (newDate.getFullYear() === new Date().getFullYear())
+        setNavigateNext(false);
     }
   };
   const handleClickDecreaseDate = () => {
-    if (props.activeFilter === "day") {
-      const newDate = new Date(currentDate);
+    if (context.activeFilter === "day") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setDate(newDate.getDate() - 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(
         newDate.toLocaleString("en", { day: "2-digit", month: "long" })
       );
-    } else if (props.activeFilter === "month") {
-      const newDate = new Date(currentDate);
+      setNavigateNext(true);
+    } else if (context.activeFilter === "month") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setMonth(newDate.getMonth() - 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(
         newDate.toLocaleString("en", { month: "long", year: "numeric" })
       );
-    } else if (props.activeFilter === "year") {
-      const newDate = new Date(currentDate);
+      setNavigateNext(true);
+    } else if (context.activeFilter === "year") {
+      const newDate = new Date(context.currentTSFilter);
       newDate.setFullYear(newDate.getFullYear() - 1);
-      setCurrentDate(newDate);
+      context.setCurrentTSFilter(newDate);
       setDateText(newDate.toLocaleString("en", { year: "numeric" }));
+      setNavigateNext(true);
     }
   };
   return (
@@ -86,6 +112,7 @@ export default function GraphNavigator(props) {
           backgroundColor: "transparent",
           border: "none",
         }}
+        disabled={!navigateNext}
       >
         <NavigateNext />
       </button>

@@ -7,13 +7,16 @@ export default function CollapsibleMenuButtonChild(props) {
   const showMenuButtons = () => setContentIsOpen(!contentIsOpen);
 
   let childButtons = props.buttons.map((button) => (
-    <button
-      className="collapsibleContent-elementButton"
-      onClick={props.callbackFun}
-      value={button}
-    >
-      {button}
-    </button>
+    <>
+      <button
+        className="collapsibleContent-elementButton"
+        onClick={props.callbackFun}
+        value={button}
+      >
+        {button}
+      </button>
+      <div style={{height:"1px", backgroundColor: "black"}}></div>
+    </>
   ));
   return (
     <div className="sideNav-collapsibleButton">
@@ -30,9 +33,10 @@ export default function CollapsibleMenuButtonChild(props) {
         {props.title}
       </button>
       <div
-        className={`collapsibleButton-content-${
-          contentIsOpen ? "open" : "close"
-        }`}
+        // className={`collapsibleButton-content-${
+        //   contentIsOpen ? "open" : "close"
+        // }`}
+        className={`collapsibleButton-content-open`}
       >
         {childButtons}
       </div>

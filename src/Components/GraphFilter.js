@@ -1,13 +1,14 @@
 import "../ComponentStyles/GraphFilter.css";
-import React from "react";
+import React, { useContext } from "react";
 import GraphNavigator from "./GraphNavigator";
+import { FilterContext } from "./Content";
 
-export default function GraphFilter(props) {
-  // const [selected, setSelected] = useState("day");
+export default function GraphFilter() {
+  const graphContext = useContext(FilterContext);
   return (
     <div className="graphFilter">
       <h6>Water Usage</h6>
-      <GraphNavigator activeFilter={props.activeFilter}/>
+      <GraphNavigator />
       <ul>
         <li>
           <input
@@ -15,7 +16,7 @@ export default function GraphFilter(props) {
             name="item"
             id="one"
             value="day"
-            onChange={props.handleRadioEvent}
+            onChange={(e) => graphContext.setGraphFilter(e.target.value)}
           />
           <label htmlFor="one">Day</label>
         </li>
@@ -26,7 +27,7 @@ export default function GraphFilter(props) {
             name="item"
             id="two"
             value="month"
-            onChange={props.handleRadioEvent}
+            onChange={(e) => graphContext.setGraphFilter(e.target.value)}
           />
           <label htmlFor="two">Month</label>
         </li>
@@ -37,7 +38,7 @@ export default function GraphFilter(props) {
             name="item"
             id="three"
             value="year"
-            onChange={props.handleRadioEvent}
+            onChange={(e) => graphContext.setGraphFilter(e.target.value)}
           />
           <label htmlFor="three">Year</label>
         </li>

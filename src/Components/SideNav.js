@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../ComponentStyles/SideNav.css";
 import CollapsibleMenuButton from "./CollapsibleMenuButton";
 
 export default function SideNav(props) {
+  const [availableSensors, setAvailableSensors] = useState([]);
+  useEffect(() => {
+    const fetchSensors = async () => {
+      let response = await fetch("http://localhost:5000/api/sensors/");
+      let responseData = await response.json();
+      console.log("Sensors : ", responseData);
+      setAvailableSensors(responseData.map((ele) => ele._id));
+    };
+    fetchSensors();
+  }, []);
   return (
     <div className="sideNav" id="sideNavBar">
       <div className="sideNav-collapsibleButtons">
         <CollapsibleMenuButton
-        callbackFun = {props.callbackFun}
+          callbackFun={props.callbackFun}
           childMenuItems={[
-            { title: "Water Meters", buttons: ["SID001", "SID002", "SID003"] },
-            // {
-            //   title: "Water Valves",
-            //   buttons: ["valve1", "valve2"],
-            // },
+            { title: "Water Meters", buttons: availableSensors },
           ]}
         />
       </div>
