@@ -11,24 +11,30 @@
     background-image: linear-gradient(to bottom left, rgb(227,238,255), rgb(240,250,255));
 }
 
-.content-navDesc-nav{
-    flex: 0.2;
-    border-bottom: 1px solid rgb(222, 222, 222);
-    padding: 10px;
-}
 
 .content-navDesc-desc{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    flex: 0.8;
+    flex: 1;
     padding: 10px;
     padding-left: 50px;
     padding-right: 50px;
 }
 
 .desc-content{
+    position: relative;
+}
 
+.editDevice{
+    background-color: rgb(50,79,255);
+    font-size: 15px;
+    height: 35px;
+    width: 110px;
+    border-radius: 20px;
+    color: white;
+    padding: 5px;
+    border: none;
 }
 

@@ -30,8 +30,8 @@ export default function CircleProgressIndicator() {
     (totalConsumption / waterLimit) * 100 > 100
       ? 100
       : (totalConsumption / waterLimit) * 100;
-  const svgWidth = 150;
-  const svgHeight = 150;
+  const svgWidth = 175;
+  const svgHeight = 175;
   const strokeWidth = 7;
   const radius = svgHeight / 2 - strokeWidth;
   const cx = svgWidth / 2;

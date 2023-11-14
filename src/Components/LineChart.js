@@ -63,7 +63,7 @@ export default function LineChart(props) {
   console.log("Chart Data");
   console.log(chartData);
   return (
-    <div style={{ height: "83%" }}>
+    <div style={{ height: "86%" }}>
       <Bar
         data={chartData}
         options={{

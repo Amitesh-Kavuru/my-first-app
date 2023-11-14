@@ -3,6 +3,8 @@ import "../ComponentStyles/Content.css";
 import LineChart from "./LineChart";
 import CircleProgressIndicator from "./CircleProgressIndicator";
 import GraphFilter from "./GraphFilter";
+import { Modal } from "@mui/material";
+import ModalForm from "./ModalForm";
 
 const FilterContext = createContext();
 
@@ -10,9 +12,18 @@ function Content(props) {
   const [graphFilter, setGraphFilter] = useState("day");
   const [currentTSFilter, setCurrentTSFilter] = useState(new Date());
   const [sensorDescription, setSensorDescription] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const selectedMeterId =
     props.selectedMeterId.length === 0 ? "SID001" : props.selectedMeterId;
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   // API call to fetch sensor description data
   const fetchData = async () => {
@@ -42,7 +53,6 @@ function Content(props) {
     >
       <div className="content">
         <div className="content-navDesc">
-          <div className="content-navDesc-nav">Navbar</div>
           <div className="content-navDesc-desc">
             <div className="desc-content">
               <p
@@ -60,13 +70,19 @@ function Content(props) {
               <p
                 style={{
                   fontSize: "18px",
-                  marginBottom: "0px"
+                  marginBottom: "0px",
                 }}
               >
                 {sensorDescription
                   ? `(${sensorDescription.monitoringAppliance})`
                   : "Waiting"}
               </p>
+              <button className="editDevice" onClick={handleModalOpen}>
+                Edit device
+              </button>
+              <Modal open={modalOpen} onClose={handleModalClose}>
+                <ModalForm sensorId={props.selectedMeterId} />
+              </Modal>
             </div>
             <CircleProgressIndicator />
           </div>
