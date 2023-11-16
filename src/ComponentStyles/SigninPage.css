@@ -1,14 +1,58 @@
-.loginForm{
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imageComponent{
+    width: 50vw;
+    height: 100vh;
+    /* background-image: url("https://img.freepik.com/premium-vector/water-logo-design_93835-621.jpg?"); */
+    /* background-image: url("https://png.pngtree.com/background/20230515/original/pngtree-beautiful-nature-background-green-grass-flower-with-water-canal-picture-image_2573809.jpg"); */
+    /* background-image: url("https://images.woodenstreet.de/image/data/Expleasia/chalice-fibre-glass-water-fountain-white/E-1.jpg"); */
+    background-image: url("https://img.freepik.com/premium-vector/rocket-water-logo_141313-65.jpg");
+    /* background-size:cover ; */
+    background-position: center;
+    /* padding: 15px; */
+    /* margin: 50px; */
+    margin-right: 0px;
     border: 1px solid black;
-    border-radius: 10px;
-    margin: auto;
+    /* border-right: 0px; */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
+    /* border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px; */
+    opacity: 0.88;
+}
+.loginForm{
+    opacity: 0.89;
+    /* background: #4ca1af;
+    background: -webkit-linear-gradient(to right, #4ca1af, #c4e0e5); 
+    background: linear-gradient(to right, #4ca1af, #c4e0e5); */
+    /* background: #67b26f;
+    background: -webkit-linear-gradient(to right, #67b26f, #4ca2cd);
+    background: linear-gradient(to right, #67b26f, #4ca2cd);
+    background: #9cecfb; 
+    background: -webkit-linear-gradient(to right, #9cecfb, #65c7f7, #0052d4);
+    background: linear-gradient(to right, #9cecfb, #65c7f7, #0052d4); */
+    border: 1px solid black;
+    /* border-radius: 10px; */
+    /* margin: auto; */
+    /* background-color: rgb(115,87,126); */
+    /* background-color: rgb(98, 162, 219); */
+    background-color: white;
     padding: 15px;
-    margin-top: 150px;
-    width: 600px;
-    height: 450px;
+    /* margin: 50px; */
+    /* margin-left: 0px; */
+    width: 50vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    /* border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px; */
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
 }
 
 .loginForm input[type="submit"]{
@@ -18,4 +62,8 @@
     width: 220px;
     height: 40px;
     margin-top: 32px;
+    transition: 1s;
+}
+.loginForm input[type="submit"]:hover{
+    background-color: rgb(0, 196, 222);
 }

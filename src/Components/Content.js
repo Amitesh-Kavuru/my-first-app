@@ -13,7 +13,7 @@ function Content(props) {
   const [currentTSFilter, setCurrentTSFilter] = useState(new Date());
   const [sensorDescription, setSensorDescription] = useState();
   const [modalOpen, setModalOpen] = useState(false);
-
+  // const [modalOpen, setModalOpen] = useState(false);
   const selectedMeterId =
     props.selectedMeterId.length === 0 ? "SID001" : props.selectedMeterId;
 
@@ -40,7 +40,6 @@ function Content(props) {
   useEffect(() => {
     fetchData();
   }, [selectedMeterId]);
-
   return (
     <FilterContext.Provider
       value={{

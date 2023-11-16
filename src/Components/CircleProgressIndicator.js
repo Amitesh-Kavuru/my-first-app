@@ -75,7 +75,7 @@ export default function CircleProgressIndicator() {
 
         <text x={cx} y={cy} textAnchor="middle" alignmentBaseline="middle">
           <tspan x={cx} dy="-2em" fontSize="14">
-            Total month
+            Total {context.activeFilter}
           </tspan>
           <tspan
             x={cx}
