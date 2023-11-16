@@ -14,22 +14,51 @@ export default function SigninPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [pageType, setPageType] = useState("signin");
+  const [passwordError, setPasswordError] = useState();  
   const navigate = useNavigate();
   const handleSignin = (event) => {
     event.preventDefault();
-    navigate("/dashboard", {
-      state: { username: username, password: password },
-    });
+    if(pageType==='register'){
+      if(password===confirmPassword){
+        navigate("/dashboard", {
+          state: { username: username, password: password },
+        });
+      }else{
+        setPasswordError("Both passwords does not matches!!!!");
+      }
+    }else{
+      navigate("/dashboard", {
+        state: { username: username, password: password },
+      });
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword(() => !showPassword);
+  const handleClickShowPassword2 = () => setShowPassword2(() => !showPassword2);
   const checkValidUsername = () => {
     return username.length >= 1 && username.length <= 6;
   };
   const checkValidPassword = () => {
     return password.length >= 1 && password.length <= 6;
+    
+    // setPasswordError("")
+    // if ("" === password) {
+    //   setPasswordError("Please enter a password")
+    //   return false;
+    // }
+
+    // if (password.length < 7) {
+    //     setPasswordError("The password must be 8 characters or longer")
+    //     return false
+    // }
+    // return true;
   };
+  const checkConfirmPassword = () => {
+    return username.length >= 1 && username.length <= 6;
+  };
+  
   // const handleClickChangeToRegister = () => {
   //   navigate("/register");
   // };
@@ -37,7 +66,8 @@ export default function SigninPage() {
   //   navigate("/");
   // };
   return (
-    <div className="App">
+    <div className="form">
+      <div className="imageComponent"></div>
       <form onSubmit={handleSignin} className="loginForm">
         <TextField
           error={checkValidUsername()}
@@ -58,7 +88,7 @@ export default function SigninPage() {
           }}
           // error= "true"
           // helperText="Invalid"
-          sx={{ mt: 4 }}
+          sx={{ mt: 4 ,width:"300px"}}
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
@@ -92,13 +122,13 @@ export default function SigninPage() {
           onChange={(event) => setPassword(event.target.value)}
         />
         <TextField
-          error={!password === confirmPassword}
+          error={passwordError}
           helperText={
-            !password === confirmPassword ? "Please confirm password" : ""
+            passwordError ? "" : passwordError
           }
           hidden={pageType === "register" ? false : true}
           label="Confirm Password"
-          type={showPassword ? "text" : "password"}
+          type={showPassword2 ? "text" : "password"}
           variant="outlined"
           className="textField"
           InputProps={{
@@ -109,16 +139,17 @@ export default function SigninPage() {
             ),
             endAdornment: (
               <InputAdornment>
-                <IconButton onClick={handleClickShowPassword}>
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                <IconButton onClick={handleClickShowPassword2}>
+                  {showPassword2 ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
-          sx={{ mt: 4 }}
+          sx={{ mt: 4,width:"300px" }}
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
         />
+        {/* <label className="errorLabel">{passwordError}</label> */}
         <input
           type="submit"
           value={pageType === "register" ? "Register" : "Login"}
@@ -138,7 +169,7 @@ export default function SigninPage() {
               style={{
                 backgroundColor: "transparent",
                 border: "none",
-                color: "#44b8c7",
+                color: "rgb(98, 162, 219)",
               }}
             >
               {pageType === "signin" ? "Register" : "Signin"}
