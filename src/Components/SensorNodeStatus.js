@@ -8,6 +8,8 @@ function SensorNodeStatus() {
           let response = await fetch("http://localhost:5000/api/sensorsdetails/");
           let responseData = await response.json();
           console.log("Sensors : ", responseData);
+          console.log("->->"+new Date( responseData[0].timestamp));
+
           setAvailableSensors(
             responseData.map((ele) => (
                 <table id={ele._id}>
@@ -26,7 +28,7 @@ function SensorNodeStatus() {
                 
                 <tr>
                     <th>Recently updated:</th>
-                    <th>{ele.timestamp}</th>
+                    <th>{new Date(ele.timestamp).getHours() + ":" +new Date(ele.timestamp).getMinutes() + ", "+ new Date(ele.timestamp).toDateString()}</th>
                 </tr>
                 <tr>
                     <th>Status:</th>
