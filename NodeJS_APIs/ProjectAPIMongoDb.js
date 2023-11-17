@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
-const dbUrl = "mongodb://localhost:27017/mydb";
+const dbUrl = "mongodb://0.0.0.0:27017/mydb";
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -44,6 +44,8 @@ app.get("/api/sensors/", (req, res) => {
     })
     .catch((err) => console.error("Fetch error", err));
 });
+
+//
 app.get("/api/sensorsdetails/", (req, res) => {
   let aggregateQuery = [
     {
@@ -67,19 +69,35 @@ app.get("/api/sensorsdetails/", (req, res) => {
     })
     .catch((err) => console.error("Fetch error", err));
 });
+
+
 // get sensor details
 app.get("/api/sensors/:sensorId/details", (req, res) => {
   const sensorId = req.params.sensorId;
+  let aggregateQuery = [
+    {
+      $group: {
+        _id: "$sensorId",
+        recentRecord: { $last: "$$ROOT" },
+      },
+    },
+    {
+      $match: {
+        _id: sensorId,
+      },
+    },
+    {
+      $replaceRoot: { newRoot: "$recentRecord" },
+    },
+  ];
   db.collection("sensorData")
-    .findOne({ sensorId: sensorId })
+    .aggregate(aggregateQuery)
+    .toArray()
     .then((result) => {
       console.log("Sensor details fetched.");
       console.log(result);
       res.status(200);
-      res.send({
-        sensorLocation: result.sensorLocation,
-        monitoringAppliance: result.monitoringAppliance,
-      });
+      res.send(result[0]);
     });
 });
 

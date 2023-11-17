@@ -52,9 +52,9 @@ export default function NewSideNav(props) {
         {availableSensors}
       </div>
       <div>
-        <Button onClick={nodeDisplay} style={{ fontSize: "18px", fontWeight: "bold", marginTop: "10px",color:"black" }}>
+        <button className="sensorButton node" onClick={nodeDisplay}>
           Node Status
-        </Button>
+        </button>
       </div>
       <div className="sideNav-infoBar">
         <img

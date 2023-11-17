@@ -13,6 +13,7 @@ function Content(props) {
   const [currentTSFilter, setCurrentTSFilter] = useState(new Date());
   const [sensorDescription, setSensorDescription] = useState();
   const [modalOpen, setModalOpen] = useState(false);
+  const [percentage,setPercentage]= useState();
   // const [modalOpen, setModalOpen] = useState(false);
   const selectedMeterId =
     props.selectedMeterId.length === 0 ? "SID001" : props.selectedMeterId;
@@ -35,6 +36,7 @@ function Content(props) {
     console.log("Json data received from API : ");
     console.log(responseData);
     setSensorDescription(responseData);
+    setPercentage(Math.floor(Math.random()*100)+1);
   };
 
   useEffect(() => {
@@ -82,6 +84,30 @@ function Content(props) {
               <Modal open={modalOpen} onClose={handleModalClose}>
                 <ModalForm sensorId={props.selectedMeterId} />
               </Modal>
+            </div>
+            <div className="sensorStatusInfo">
+              <table>
+                <tr>
+                  <th>Recently updated:</th>
+                  <th>
+                    {sensorDescription
+                      ? new Date(sensorDescription.timestamp).getHours() +
+                        ":" +
+                        new Date(sensorDescription.timestamp).getMinutes() +
+                        ", " +
+                        new Date(sensorDescription.timestamp).toDateString()
+                      : "Waiting"}
+                  </th>
+                </tr>
+                <tr>
+                  <th>Status:</th>
+                  <th>Active🟢</th>
+                </tr>
+                <tr>
+                  <th>Battery Percentage</th>
+                  <th>{percentage?percentage:"Waiting"}%</th>
+                </tr>
+              </table>
             </div>
             <CircleProgressIndicator />
           </div>
